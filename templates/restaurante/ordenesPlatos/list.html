@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Platos por Orden</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h2>Lista de Platos por Orden</h2>
+
+    {% if orden_platos %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Orden</th>
+                <th>Plato</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden_plato in orden_platos %}
+            <tr>
+                <td>{{ orden_plato.id }}</td>
+                <td>{{ orden_plato.orden.id }}</td>
+                <td>{{ orden_plato.plato.nombre }}</td>
+                <td>{{ orden_plato.cantidad }}</td>
+                <td>
+                    <a href="{% url 'orden_platos_update' orden_plato.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'orden_platos_delete' orden_plato.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay platos asignados a órdenes.</p>
+    {% endif %}
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

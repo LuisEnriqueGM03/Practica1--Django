@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Mesero</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h2>{% if mesero %}Editar Mesero{% else %}Crear Mesero{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{% if mesero %}{{ mesero.nombre }}{% endif %}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="apellido">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" value="{% if mesero %}{{ mesero.apellido }}{% endif %}" required>
+        </div>
+        <div class="form-group mb-3">
+            <label for="telefono">Teléfono</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" value="{% if mesero %}{{ mesero.telefono }}{% endif %}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">{% if mesero %}Actualizar{% else %}Crear{% endif %}</button>
+    </form>
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

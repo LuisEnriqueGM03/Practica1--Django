@@ -1,0 +1,6 @@
+from .cliente_views import (clientes_create, clientes_list,clientes_update, clientes_delete)
+from .mesa_views import (mesas_list,mesas_create,mesas_delete,mesas_update)
+from .plato_views import (platos_list,platos_create,platos_delete,platos_update)
+from .mesero_views import (meseros_list,meseros_create,meseros_delete,meseros_update)
+from .orden_views import (ordenes_list, ordenes_create, ordenes_update, ordenes_delete,ordenes_pagar)
+from .ordenPlato_views import (orden_platos_list, orden_platos_create, orden_platos_update, orden_platos_delete,)

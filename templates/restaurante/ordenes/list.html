@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Órdenes</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h2>Lista de Órdenes</h2>
+    <a href="{% url 'ordenes_create' %}" class="btn btn-primary mb-3">Crear Nueva Orden</a>
+
+    {% if ordenes %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mesero</th>
+                <th>Mesa</th>
+                <th>Cliente</th>
+                <th>Estado</th>
+                <th>Fecha de Creación</th>
+                <th>Platos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden in ordenes %}
+            <tr>
+                <td>{{ orden.id }}</td>
+                <td>{{ orden.mesero.nombre }}</td>
+                <td>{{ orden.mesa.numero }}</td>
+                <td>
+                    {% if orden.cliente %}
+                        {{ orden.cliente.nombre }} - NIT: {{ orden.cliente.nit|default:"Sin NIT" }}
+                    {% else %}
+                        Sin cliente
+                    {% endif %}
+                </td>
+                <td>{{ orden.estado|capfirst }}</td>
+                <td>{{ orden.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                <td>
+                    <ul>
+                        {% for orden_plato in orden.orden_platos.all %}
+                            <li>{{ orden_plato.cantidad }} x {{ orden_plato.plato.nombre }}</li>
+                        {% empty %}
+                            <li>No hay platos</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <a href="{% url 'ordenes_update' orden.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'ordenes_delete' orden.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    {% if orden.estado == 'abierto' %}
+                        <a href="{% url 'ordenes_pagar' orden.id %}" class="btn btn-success btn-sm">Pagar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay órdenes registradas.</p>
+    {% endif %}
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

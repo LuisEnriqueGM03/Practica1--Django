@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagar Orden #{{ orden.id }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h4>Pagar Orden #{{ orden.id }}</h4>
+    <p><strong>Mesa:</strong> {{ orden.mesa.numero }}</p>
+    <p><strong>Mesero:</strong> {{ orden.mesero.nombre }}</p>
+    <p><strong>Estado actual:</strong> {{ orden.estado|capfirst }}</p>
+
+
+    <h4>Platos en la orden:</h4>
+    {% if orden.orden_platos.all %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Plato</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden_plato in orden.orden_platos.all %}
+            <tr>
+                <td>{{ orden_plato.plato.nombre }}</td>
+                <td>{{ orden_plato.cantidad }}</td>
+                <td>${{ orden_plato.plato.precio }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay platos en esta orden.</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="cliente"><strong>Cliente:</strong> </label>
+            <select class="form-control" id="cliente" name="cliente" required>
+                <option value="">Ninguno</option>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    <br>
+        <button type="submit" class="btn btn-success">Pagar y Cerrar Orden</button>
+        <a href="{% url 'ordenes' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

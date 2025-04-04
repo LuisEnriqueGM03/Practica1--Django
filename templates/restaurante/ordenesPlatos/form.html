@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Cantidad de Plato en Orden #{{ orden_plato.orden.id }}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<div class="container">
+    <h2>Editar Cantidad de Plato en Orden #{{ orden_plato.orden.id }}</h2>
+
+
+    <div class="mb-3">
+        <p><strong>Orden:</strong> #{{ orden_plato.orden.id }} - Mesa {{ orden_plato.orden.mesa.numero }}</p>
+        <p><strong>Plato:</strong> {{ orden_plato.plato.nombre }} - ${{ orden_plato.plato.precio }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" class="form-control" id="cantidad" name="cantidad" min="1"
+                   value="{{ orden_plato.cantidad }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{% url 'orden_platos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
