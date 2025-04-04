@@ -1,27 +1,19 @@
-{% load static %}
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Formulario de Cliente</title>
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    </head>
-    <body>
-    <div class="container">
-        <h2>{% if cliente %}Editar Cliente{% else %}Crear Cliente{% endif %}</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group mb-3">
-                <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{% if cliente %}{{ cliente.nombre }}{% endif %}" required>
-            </div>
-            <div class="form-group mb-3">
-                <label for="nit">Nit</label>
-                <input type="number" step="1" class="form-control" id="nit" name="nit" value="{% if cliente %}{{ cliente.nit }}{% endif %}" required>
-            </div>
-            <button type="submit" class="btn btn-primary">{% if cliente %}Actualizar{% else %}Crear{% endif %}</button>
-        </form>
-    </div>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    </body>
-    </html>
+
+{% extends 'restaurante/base.html' %}
+    {% block content %}
+      <div class="container">
+            <h2>{% if cliente %}Editar Cliente{% else %}Crear Cliente{% endif %}</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{% if cliente %}{{ cliente.nombre }}{% endif %}" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="nit">Nit</label>
+                    <input type="number" step="1" class="form-control" id="nit" name="nit" value="{% if cliente %}{{ cliente.nit }}{% endif %}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">{% if cliente %}Actualizar{% else %}Crear{% endif %}</button>
+            </form>
+        </div>
+    {% endblock %}

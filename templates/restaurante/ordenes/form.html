@@ -1,68 +1,60 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>{% if orden %}Editar Orden{% else %}Crear Orden{% endif %}</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-</head>
-<body>
-<div class="container">
-    <h2>{% if orden %}Editar Orden #{{ orden.id }}{% else %}Crear Nueva Orden{% endif %}</h2>
-    <form method="post">
-        {% csrf_token %}
 
-        <div class="form-group">
-            <label for="mesero">Mesero</label>
-            <select class="form-control" id="mesero" name="mesero" required>
-                {% for mesero in meseros %}
-                    <option value="{{ mesero.id }}" {% if orden and orden.mesero.id == mesero.id %}selected{% endif %}>
-                        {{ mesero.nombre }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+{% extends 'restaurante/base.html' %}
+    {% block content %}
+        <div class="container">
+            <h2>{% if orden %}Editar Orden #{{ orden.id }}{% else %}Crear Nueva Orden{% endif %}</h2>
+            <form method="post">
+                {% csrf_token %}
 
-        <div class="form-group">
-            <label for="mesa">Mesa</label>
-            <select class="form-control" id="mesa" name="mesa" required>
-                {% for mesa in mesas %}
-                    <option value="{{ mesa.id }}" {% if orden and orden.mesa.id == mesa.id %}selected{% endif %}>
-                        Mesa {{ mesa.numero }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+                <div class="form-group">
+                    <label for="mesero">Mesero</label>
+                    <select class="form-control" id="mesero" name="mesero" required>
+                        {% for mesero in meseros %}
+                            <option value="{{ mesero.id }}" {% if orden and orden.mesero.id == mesero.id %}selected{% endif %}>
+                                {{ mesero.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-        <div class="form-group">
-            <label>Platos</label>
-            <div id="platos-container">
-                {% for plato in platos %}
-                    <div class="form-check mb-2 plato-row">
-                        <input type="checkbox" class="form-check-input" name="platos"
-                               value="{{ plato.id }}" id="plato_{{ plato.id }}"
-                               {% if orden %}
-                                   {% for orden_plato in orden.orden_platos.all %}
-                                       {% if orden_plato.plato.id == plato.id %}checked{% endif %}
-                                   {% endfor %}
-                               {% endif %}>
-                        <label class="form-check-label" for="plato_{{ plato.id }}">
-                            {{ plato.nombre }} - ${{ plato.precio }}
-                        </label>
-                        <input type="number" class="form-control d-inline-block w-25 ml-3 cantidad-input"
-                               name="cantidades" min="1"
-                               value="{% if orden %}{% for orden_plato in orden.orden_platos.all %}{% if orden_plato.plato.id == plato.id %}{{ orden_plato.cantidad }}{% else %}1{% endif %}{% endfor %}{% else %}1{% endif %}">
+                <div class="form-group">
+                    <label for="mesa">Mesa</label>
+                    <select class="form-control" id="mesa" name="mesa" required>
+                        {% for mesa in mesas %}
+                            <option value="{{ mesa.id }}" {% if orden and orden.mesa.id == mesa.id %}selected{% endif %}>
+                                Mesa {{ mesa.numero }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Platos</label>
+                    <div id="platos-container">
+                        {% for plato in platos %}
+                            <div class="form-check mb-2 plato-row">
+                                <input type="checkbox" class="form-check-input" name="platos"
+                                       value="{{ plato.id }}" id="plato_{{ plato.id }}"
+                                       {% if orden %}
+                                           {% for orden_plato in orden.orden_platos.all %}
+                                               {% if orden_plato.plato.id == plato.id %}checked{% endif %}
+                                           {% endfor %}
+                                       {% endif %}>
+                                <label class="form-check-label" for="plato_{{ plato.id }}">
+                                    {{ plato.nombre }} - ${{ plato.precio }}
+                                </label>
+                                <input type="number" class="form-control d-inline-block w-25 ml-3 cantidad-input"
+                                       name="cantidades" min="1"
+                                       value="{% if orden %}{% for orden_plato in orden.orden_platos.all %}{% if orden_plato.plato.id == plato.id %}{{ orden_plato.cantidad }}{% else %}1{% endif %}{% endfor %}{% else %}1{% endif %}">
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            </div>
-        </div>
+                </div>
 
-        <button type="submit" class="btn btn-primary">
-            {% if orden %}Actualizar{% else %}Crear{% endif %}
-        </button>
-        <a href="{% url 'ordenes' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
-</div>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+                <button type="submit" class="btn btn-primary">
+                    {% if orden %}Actualizar{% else %}Crear{% endif %}
+                </button>
+                <a href="{% url 'ordenes' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    {% endblock %}

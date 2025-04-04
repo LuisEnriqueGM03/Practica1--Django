@@ -1,39 +1,30 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Clientes</title>
-            <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-</head>
-<body>
-<div class="container">
-    <h2>Lista de Clientes</h2>
-    <a href="{% url 'clientes_create' %}" class="btn btn-primary mb-3">Crear Cliente</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>NIT</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cliente in clientes %}
-            <tr>
-                <td>{{ cliente.id }}</td>
-                <td>{{ cliente.nombre }}</td>
-                <td>{{ cliente.nit }}</td>
-                <td>
-                    <a href="{% url 'clientes_update' cliente.id %}" class="btn btn-warning btn-sm">Editar</a>
-                    <a href="{% url 'clientes_delete' cliente.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
- <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% extends 'restaurante/base.html' %}
+    {% block content %}
+        <div class="container">
+            <h2>Lista de Clientes</h2>
+            <a href="{% url 'clientes_create' %}" class="btn btn-primary mb-3">Crear Cliente</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>NIT</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente.id }}</td>
+                        <td>{{ cliente.nombre }}</td>
+                        <td>{{ cliente.nit }}</td>
+                        <td>
+                            <a href="{% url 'clientes_update' cliente.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'clientes_delete' cliente.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endblock %}
